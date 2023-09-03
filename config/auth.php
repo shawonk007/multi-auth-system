@@ -39,6 +39,15 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'container' => 'web',
+            'session' => 'web_session', // Set a unique session name for the 'web' guard
+        ],
+    
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+            'container' => 'admin',
+            'session' => 'admin_session', // Set a unique session name for the 'admin' guard
         ],
     ],
 
@@ -63,6 +72,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [

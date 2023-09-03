@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function() {
+    Route::get('/', [AdminController::class, 'create'])->name('create');
+    Route::post('/', [AdminController::class, 'store'])->name('store');
+});
+
+Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
+    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::post('logout', [AdminController::class, 'destroy'])->name('logout');
 });
 
 Route::get('/dashboard', function () {
