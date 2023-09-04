@@ -12,6 +12,7 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+
     /**
      * Display the login view.
      */
@@ -35,14 +36,28 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
-        Auth::guard('web')->logout();
+        // Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+        // $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        // $request->session()->regenerateToken();
 
-        return redirect('/');
+        // return redirect('/');
+
+        // if (Auth::guard('web')->check()) {
+        //     Auth::guard('web')->logout();  // Logout the 'web' guard (user)
+        //     $request->session()->invalidate();  // Invalidate the session
+        //     $request->session()->regenerateToken();  // Regenerate the CSRF token
+        // }
+
+        // return redirect('/login');
+        $request->session()->forget('user_id');
+        Auth::guard('web')->logout();  // This will log out the user using the 'web' guard
+        // $request->session()->invalidate();  // Invalidate the session
+        $request->session()->regenerateToken();  // Regenerate the CSRF token
+    
+        return redirect('/login');  // Redirect to the login page
     }
 }

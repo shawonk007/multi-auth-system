@@ -19,14 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function() {
-    Route::get('/', [AdminController::class, 'create'])->name('create');
-    Route::post('/', [AdminController::class, 'store'])->name('store');
+Route::middleware('visitor:admin')->group(function() {
+    Route::get('admin', [AdminController::class, 'create'])->name('admin.create');
+    Route::post('admin', [AdminController::class, 'store'])->name('admin.store');
 });
 
-Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
-    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
-    Route::post('logout', [AdminController::class, 'destroy'])->name('logout');
+Route::middleware('auth:admin')->prefix('admin')->group(function() {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/sign-out', [AdminController::class, 'destroy'])->name('admin.logout');
 });
 
 Route::get('/dashboard', function () {

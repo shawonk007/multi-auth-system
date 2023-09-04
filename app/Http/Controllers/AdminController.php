@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except('logout');
+    //     Auth::setDefaultDriver('web'); // Set the default guard to 'web'
+    // }
     /**
      * Display a listing of the resource.
      */
@@ -74,12 +79,28 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         //
-        Auth::guard('admin')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Auth::guard('admin')->logout();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+        // return redirect('/admin');
+
+        // if (auth('admin')->check()) {
+        //     auth('admin')->logout();  // Logout the 'admin' guard
+        //     $request->session()->invalidate();  // Invalidate the session
+        //     $request->session()->regenerateToken();  // Regenerate the CSRF token
+        // }
+
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();  // Logout the 'admin' guard
+            $request->session()->invalidate();  // Invalidate the session
+            $request->session()->regenerateToken();  // Regenerate the CSRF token
+        }
+
+        // $this->guard('admin')->logout();
+        
         return redirect('/admin');
     }
 }
